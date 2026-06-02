@@ -1,50 +1,70 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 
-type Status = "idle" | "loading" | "success" | "error";
+type Status = 'idle' | 'loading' | 'success' | 'error';
 
 const fields = [
-  { name: "fanName", label: "Your name", type: "text", placeholder: "Jane Fan" },
-  { name: "email", label: "Email", type: "email", placeholder: "jane@example.com" },
-  { name: "showName", label: "Show", type: "text", placeholder: "Midnight Set at The Echo" },
-  { name: "venue", label: "Venue", type: "text", placeholder: "The Echo, Los Angeles" },
-  { name: "date", label: "Show date", type: "date", placeholder: "" },
+  {
+    name: 'fanName',
+    label: 'Your name',
+    type: 'text',
+    placeholder: 'Patrick Star',
+  },
+  {
+    name: 'email',
+    label: 'Email',
+    type: 'email',
+    placeholder: 'pstar92@hotmail.com',
+  },
+  {
+    name: 'showName',
+    label: 'Show',
+    type: 'text',
+    placeholder: 'Open Mic Night',
+  },
+  {
+    name: 'venue',
+    label: 'Venue',
+    type: 'text',
+    placeholder: 'The Krusty Krab',
+  },
+  { name: 'date', label: 'Show date', type: 'date', placeholder: '' },
 ] as const;
 
 export default function Home() {
-  const [status, setStatus] = useState<Status>("idle");
-  const [ticketNumber, setTicketNumber] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  const [status, setStatus] = useState<Status>('idle');
+  const [ticketNumber, setTicketNumber] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setStatus("loading");
-    setError("");
+    setStatus('loading');
+    setError('');
 
     const form = e.currentTarget;
     const payload = Object.fromEntries(new FormData(form).entries());
 
     try {
-      const res = await fetch("/api/send", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch('/api/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error ?? "Something went wrong.");
-        setStatus("error");
+        setError(data.error ?? 'Something went wrong.');
+        setStatus('error');
         return;
       }
 
       setTicketNumber(data.ticketNumber);
-      setStatus("success");
+      setStatus('success');
       form.reset();
     } catch {
-      setError("Network error. Try again.");
-      setStatus("error");
+      setError('Network error. Try again.');
+      setStatus('error');
     }
   }
 
@@ -61,17 +81,15 @@ export default function Home() {
         </p>
       </header>
 
-      {status === "success" ? (
+      {status === 'success' ? (
         <div className="border border-white/10 p-8 text-center">
           <p className="text-xs tracking-[0.3em] text-accent">CONFIRMED</p>
           <p className="mt-4 text-xl font-medium">
             You&apos;re on the list. Check your inbox.
           </p>
-          <p className="mt-3 font-mono text-sm text-white/50">
-            {ticketNumber}
-          </p>
+          <p className="mt-3 font-mono text-sm text-white/50">{ticketNumber}</p>
           <button
-            onClick={() => setStatus("idle")}
+            onClick={() => setStatus('idle')}
             className="mt-8 text-xs tracking-wide text-white/40 underline-offset-4 hover:text-white/70 hover:underline"
           >
             Claim another
@@ -89,22 +107,22 @@ export default function Home() {
                 type={field.type}
                 placeholder={field.placeholder}
                 required
-                disabled={status === "loading"}
+                disabled={status === 'loading'}
                 className="w-full border border-white/15 bg-transparent px-4 py-3 text-sm text-white placeholder:text-white/25 outline-none transition-colors focus:border-accent disabled:opacity-50"
               />
             </label>
           ))}
 
-          {status === "error" && (
+          {status === 'error' && (
             <p className="text-sm text-red-400">{error}</p>
           )}
 
           <button
             type="submit"
-            disabled={status === "loading"}
+            disabled={status === 'loading'}
             className="w-full bg-accent px-4 py-3 text-sm font-semibold tracking-wide text-ink transition-opacity hover:opacity-90 disabled:opacity-60"
           >
-            {status === "loading" ? "Sending…" : "Get my ticket"}
+            {status === 'loading' ? 'Sending…' : 'Get my ticket'}
           </button>
         </form>
       )}
