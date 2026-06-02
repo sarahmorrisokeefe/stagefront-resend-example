@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   page: {
     backgroundColor: "#0a0a0a",
     color: "#ffffff",
-    padding: 48,
+    padding: 32,
     fontFamily: "Helvetica",
   },
   frame: {
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#333333",
     borderStyle: "solid",
-    padding: 40,
+    padding: 32,
     justifyContent: "space-between",
   },
   kicker: {
@@ -49,11 +49,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#333333",
     borderBottomStyle: "solid",
-    marginVertical: 28,
+    marginVertical: 20,
   },
   row: {
     flexDirection: "row",
-    marginBottom: 18,
+    marginBottom: 12,
   },
   label: {
     width: 90,
@@ -98,7 +98,9 @@ function TicketDocument({ data }: { data: TicketData }) {
       title={`Stagefront ticket — ${data.showName}`}
       author="Stagefront"
     >
-      <Page size="A6" orientation="landscape" style={styles.page}>
+      {/* Fixed ticket-sized canvas + wrap={false} so the ticket is always
+          exactly one page and never paginates on overflow. */}
+      <Page size={[620, 400]} wrap={false} style={styles.page}>
         <View style={styles.frame}>
           <View>
             <Text style={styles.kicker}>Admit one</Text>
