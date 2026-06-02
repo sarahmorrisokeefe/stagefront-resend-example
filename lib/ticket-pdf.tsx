@@ -3,9 +3,11 @@ import {
   Page,
   Text,
   View,
+  Image,
   StyleSheet,
   renderToBuffer,
 } from "@react-pdf/renderer";
+import { LOGOMARK_DATA_URI } from "./logo";
 
 // SERVER-ONLY. @react-pdf/renderer must never reach a client bundle.
 // Only import this from route handlers.
@@ -32,6 +34,11 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     padding: 32,
     justifyContent: "space-between",
+  },
+  logo: {
+    width: 46,
+    height: 28,
+    marginBottom: 18,
   },
   kicker: {
     fontSize: 10,
@@ -141,9 +148,10 @@ function TicketDocument({ data }: { data: TicketData }) {
     >
       {/* Fixed ticket-sized canvas + wrap={false} so the ticket is always
           exactly one page and never paginates on overflow. */}
-      <Page size={[620, 470]} wrap={false} style={styles.page}>
+      <Page size={[620, 500]} wrap={false} style={styles.page}>
         <View style={styles.frame}>
           <View>
+            <Image src={LOGOMARK_DATA_URI} style={styles.logo} />
             <Text style={styles.kicker}>Admit one</Text>
             <Text style={styles.showName}>{data.showName}</Text>
           </View>

@@ -3,9 +3,15 @@ import {
   Container,
   Head,
   Html,
+  Img,
   Preview,
   Text,
 } from "@react-email/components";
+
+// Emails can't use relative paths — the image must be a publicly hosted,
+// absolute URL. Served from public/ on the production deployment.
+const LOGOMARK_URL =
+  "https://stagefront-resend-example.vercel.app/logomark-white.png";
 
 export interface ShowReminderProps {
   fanName: string;
@@ -24,6 +30,13 @@ export default function ShowReminder({
       <Preview>{`Heads up — ${showName} at ${venue} is tomorrow night. Keep your PDF ticket handy and we'll see you there.`}</Preview>
       <Body style={body}>
         <Container style={container}>
+          <Img
+            src={LOGOMARK_URL}
+            width="52"
+            height="32"
+            alt="Stagefront"
+            style={logo}
+          />
           <Text style={kicker}>TOMORROW NIGHT</Text>
           <Text style={headline}>
             Hey {fanName}, {showName} is tomorrow at {venue}.
@@ -54,6 +67,11 @@ const container: React.CSSProperties = {
   backgroundColor: "#141414",
   border: "1px solid #2a2a2a",
   borderRadius: "6px",
+};
+
+const logo: React.CSSProperties = {
+  display: "block",
+  marginBottom: "20px",
 };
 
 const kicker: React.CSSProperties = {

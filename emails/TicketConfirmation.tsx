@@ -4,12 +4,18 @@ import {
   Head,
   Hr,
   Html,
+  Img,
   Preview,
   Row,
   Column,
   Section,
   Text,
 } from "@react-email/components";
+
+// Emails can't use relative paths — the image must be a publicly hosted,
+// absolute URL. Served from public/ on the production deployment.
+const LOGOMARK_URL =
+  "https://stagefront-resend-example.vercel.app/logomark-white.png";
 
 export interface TicketConfirmationProps {
   fanName: string;
@@ -32,6 +38,13 @@ export default function TicketConfirmation({
       <Preview>{`Your ticket for ${showName} at ${venue} on ${date} is confirmed — PDF attached. See you down front.`}</Preview>
       <Body style={body}>
         <Container style={container}>
+          <Img
+            src={LOGOMARK_URL}
+            width="52"
+            height="32"
+            alt="Stagefront"
+            style={logo}
+          />
           <Text style={kicker}>ADMIT ONE</Text>
           <Text style={showNameStyle}>{showName}</Text>
 
@@ -88,6 +101,11 @@ const container: React.CSSProperties = {
   backgroundColor: "#141414",
   border: "1px solid #2a2a2a",
   borderRadius: "6px",
+};
+
+const logo: React.CSSProperties = {
+  display: "block",
+  marginBottom: "20px",
 };
 
 const kicker: React.CSSProperties = {

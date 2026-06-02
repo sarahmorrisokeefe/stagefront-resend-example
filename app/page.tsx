@@ -9,13 +9,13 @@ const fields = [
     name: 'fanName',
     label: 'Your name',
     type: 'text',
-    placeholder: 'Patrick Star',
+    placeholder: 'Sarah',
   },
   {
     name: 'email',
     label: 'Email',
     type: 'email',
-    placeholder: 'pstar92@hotmail.com',
+    placeholder: 'sarah@resend.com',
   },
   {
     name: 'showName',
@@ -27,7 +27,7 @@ const fields = [
     name: 'venue',
     label: 'Venue',
     type: 'text',
-    placeholder: 'The Krusty Krab',
+    placeholder: 'Neighborhood Theatre',
   },
   { name: 'date', label: 'Show date', type: 'date', placeholder: '' },
 ] as const;
@@ -71,7 +71,8 @@ export default function Home() {
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 py-16">
       <header className="mb-10">
-        <p className="text-xs tracking-[0.3em] text-accent">STAGEFRONT</p>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo-white.png" alt="Stagefront" className="mb-6 h-auto w-44" />
         <h1 className="mt-3 text-3xl font-semibold leading-tight">
           Claim your ticket.
         </h1>
