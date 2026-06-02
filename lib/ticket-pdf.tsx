@@ -90,7 +90,48 @@ const styles = StyleSheet.create({
     color: "#888888",
     textTransform: "uppercase",
   },
+  barcodeStrip: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: 46,
+    backgroundColor: "#ffffff",
+    paddingHorizontal: 14,
+    paddingVertical: 9,
+    marginBottom: 16,
+  },
+  bar: {
+    height: "100%",
+    backgroundColor: "#0a0a0a",
+  },
 });
+
+// Purely decorative — not a scannable code. Deterministic bar widths derived
+// from the ticket number so the same ticket always renders the same pattern.
+// Fills the strip width (~458pt inner) and stops before overflowing.
+function barcodeBars(seed: string): { w: number; gap: number }[] {
+  const bars: { w: number; gap: number }[] = [];
+  const maxWidth = 458;
+  let used = 0;
+  for (let i = 0; used < maxWidth; i++) {
+    const code = seed.charCodeAt(i % seed.length) * (i + 3);
+    const w = 1 + (code % 3);
+    const gap = 1 + ((code >> 1) % 2);
+    if (used + w + gap > maxWidth) break;
+    bars.push({ w, gap });
+    used += w + gap;
+  }
+  return bars;
+}
+
+function Barcode({ value }: { value: string }) {
+  return (
+    <View style={styles.barcodeStrip}>
+      {barcodeBars(value).map((b, i) => (
+        <View key={i} style={[styles.bar, { width: b.w, marginRight: b.gap }]} />
+      ))}
+    </View>
+  );
+}
 
 function TicketDocument({ data }: { data: TicketData }) {
   return (
@@ -100,7 +141,7 @@ function TicketDocument({ data }: { data: TicketData }) {
     >
       {/* Fixed ticket-sized canvas + wrap={false} so the ticket is always
           exactly one page and never paginates on overflow. */}
-      <Page size={[620, 400]} wrap={false} style={styles.page}>
+      <Page size={[620, 470]} wrap={false} style={styles.page}>
         <View style={styles.frame}>
           <View>
             <Text style={styles.kicker}>Admit one</Text>
@@ -124,12 +165,15 @@ function TicketDocument({ data }: { data: TicketData }) {
             </View>
           </View>
 
-          <View style={styles.footer}>
-            <View>
-              <Text style={styles.footerLabel}>Ticket no.</Text>
-              <Text style={styles.ticketNumber}>{data.ticketNumber}</Text>
+          <View>
+            <Barcode value={data.ticketNumber} />
+            <View style={styles.footer}>
+              <View>
+                <Text style={styles.footerLabel}>Ticket no.</Text>
+                <Text style={styles.ticketNumber}>{data.ticketNumber}</Text>
+              </View>
+              <Text style={styles.brand}>Stagefront</Text>
             </View>
-            <Text style={styles.brand}>Stagefront</Text>
           </View>
         </View>
       </Page>
