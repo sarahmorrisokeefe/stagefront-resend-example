@@ -21,7 +21,7 @@ export default function ShowReminder({
   return (
     <Html>
       <Head />
-      <Preview>{`${showName} is tomorrow`}</Preview>
+      <Preview>{`Heads up — ${showName} at ${venue} is tomorrow night. Keep your PDF ticket handy and we'll see you there.`}</Preview>
       <Body style={body}>
         <Container style={container}>
           <Text style={kicker}>TOMORROW NIGHT</Text>

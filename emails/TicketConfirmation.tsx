@@ -29,7 +29,7 @@ export default function TicketConfirmation({
   return (
     <Html>
       <Head />
-      <Preview>{`You're on the list for ${showName}`}</Preview>
+      <Preview>{`Your ticket for ${showName} at ${venue} on ${date} is confirmed — PDF attached. See you down front.`}</Preview>
       <Body style={body}>
         <Container style={container}>
           <Text style={kicker}>ADMIT ONE</Text>
