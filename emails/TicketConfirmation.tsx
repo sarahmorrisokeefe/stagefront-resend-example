@@ -93,7 +93,7 @@ const container: React.CSSProperties = {
 const kicker: React.CSSProperties = {
   fontSize: "11px",
   letterSpacing: "4px",
-  color: "#e8c96a",
+  color: "#4A7FEA",
   margin: "0 0 8px",
 };
 
@@ -130,7 +130,7 @@ const valueCol: React.CSSProperties = {
 const ticketCol: React.CSSProperties = {
   fontSize: "15px",
   fontFamily: "Courier, monospace",
-  color: "#e8c96a",
+  color: "#4A7FEA",
 };
 
 const note: React.CSSProperties = {

@@ -10,7 +10,7 @@ const config: Config = {
     extend: {
       colors: {
         ink: "#0a0a0a",
-        accent: "#e8c96a",
+        accent: "#4A7FEA",
       },
       fontFamily: {
         mono: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],

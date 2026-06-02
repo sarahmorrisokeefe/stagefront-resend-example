@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   kicker: {
     fontSize: 10,
     letterSpacing: 4,
-    color: "#e8c96a",
+    color: "#4A7FEA",
     textTransform: "uppercase",
   },
   showName: {
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
   ticketNumber: {
     fontSize: 16,
     fontFamily: "Courier-Bold",
-    color: "#e8c96a",
+    color: "#4A7FEA",
   },
   brand: {
     fontSize: 10,

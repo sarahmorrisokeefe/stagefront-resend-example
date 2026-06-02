@@ -59,7 +59,7 @@ const container: React.CSSProperties = {
 const kicker: React.CSSProperties = {
   fontSize: "11px",
   letterSpacing: "4px",
-  color: "#e8c96a",
+  color: "#4A7FEA",
   margin: "0 0 12px",
 };
 
