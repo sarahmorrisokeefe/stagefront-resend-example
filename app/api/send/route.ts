@@ -95,7 +95,12 @@ export async function POST(request: Request) {
           date: displayDate,
           ticketNumber,
         }),
-        attachments: [{ filename: "ticket.pdf", content: pdf }],
+        // No inlineContentId → sent as a real Content-Disposition: attachment,
+        // not embedded in the body. contentType set explicitly so every client
+        // treats it as a downloadable PDF rather than inferring from the name.
+        attachments: [
+          { filename: "ticket.pdf", content: pdf, contentType: "application/pdf" },
+        ],
       },
       { idempotencyKey: `ticket-confirm-${seed}` },
     );
