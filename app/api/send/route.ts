@@ -102,6 +102,23 @@ export async function POST(request: Request) {
 
     if (confirmError) {
       console.error("Confirmation send failed:", confirmError);
+
+      // The idempotency key (email + show + date) already went out, but with
+      // a different body — i.e. this is a duplicate claim, not a clean retry.
+      const err = confirmError as { name?: string; statusCode?: number };
+      if (
+        err.name === "invalid_idempotent_request" ||
+        err.statusCode === 409
+      ) {
+        return NextResponse.json(
+          {
+            error:
+              "Looks like you've already claimed a ticket for this show with this email. Check your inbox — your original confirmation is already there.",
+          },
+          { status: 409 },
+        );
+      }
+
       return NextResponse.json(
         { error: "Could not send your confirmation. Try again." },
         { status: 502 },
