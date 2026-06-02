@@ -76,14 +76,18 @@ const body: React.CSSProperties = {
   color: "#ffffff",
   fontFamily: "Helvetica, Arial, sans-serif",
   margin: 0,
-  padding: "40px 0",
+  padding: "24px 16px",
 };
 
+// A slightly lighter surface than the page so the ticket reads as a
+// deliberate card, not a thin border floating in an undifferentiated void.
 const container: React.CSSProperties = {
-  maxWidth: "480px",
+  maxWidth: "440px",
   margin: "0 auto",
-  padding: "40px",
+  padding: "36px",
+  backgroundColor: "#141414",
   border: "1px solid #2a2a2a",
+  borderRadius: "6px",
 };
 
 const kicker: React.CSSProperties = {
