@@ -1,12 +1,12 @@
-import { NextResponse } from "next/server";
-import { resend } from "@/lib/resend";
-import { generateTicketNumber } from "@/lib/ticket-number";
-import { renderTicketPdf } from "@/lib/ticket-pdf";
-import TicketConfirmation from "@/emails/TicketConfirmation";
-import ShowReminder from "@/emails/ShowReminder";
+import { NextResponse } from 'next/server';
+import { resend } from '@/lib/resend';
+import { generateTicketNumber } from '@/lib/ticket-number';
+import { renderTicketPdf } from '@/lib/ticket-pdf';
+import TicketConfirmation from '@/emails/TicketConfirmation';
+import ShowReminder from '@/emails/ShowReminder';
 
 // @react-pdf/renderer needs the Node runtime — it won't run on the edge.
-export const runtime = "nodejs";
+export const runtime = 'nodejs';
 
 interface SendBody {
   fanName?: string;
@@ -18,15 +18,15 @@ interface SendBody {
 
 /** Format "2026-07-18" as "Fri, Jul 18 2026" without tripping over timezones. */
 function formatShowDate(date: string): string {
-  const formatted = new Intl.DateTimeFormat("en-US", {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-    timeZone: "UTC",
+  const formatted = new Intl.DateTimeFormat('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    timeZone: 'UTC',
   }).format(new Date(`${date}T00:00:00Z`));
   // Intl gives "Fri, Jul 18, 2026" — drop the comma before the year.
-  return formatted.replace(/,(\s\d{4})$/, "$1");
+  return formatted.replace(/,(\s\d{4})$/, '$1');
 }
 
 /** 8pm the night before the show, as an ISO string (or null if already past). */
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Invalid JSON body." }, { status: 400 });
+    return NextResponse.json({ error: 'Invalid JSON body.' }, { status: 400 });
   }
 
   const fanName = body.fanName?.trim();
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
 
   if (!fanName || !email || !showName || !venue || !date) {
     return NextResponse.json(
-      { error: "All fields are required." },
+      { error: 'All fields are required.' },
       { status: 400 },
     );
   }
@@ -62,7 +62,7 @@ export async function POST(request: Request) {
   const from = process.env.FROM_EMAIL;
   if (!from) {
     return NextResponse.json(
-      { error: "FROM_EMAIL is not configured." },
+      { error: 'FROM_EMAIL is not configured.' },
       { status: 500 },
     );
   }
@@ -71,7 +71,7 @@ export async function POST(request: Request) {
   const displayDate = formatShowDate(date);
 
   // Stable idempotency seed so retries of the same submission don't re-send.
-  const seed = Buffer.from(`${email}-${showName}-${date}`).toString("base64");
+  const seed = Buffer.from(`${email}-${showName}-${date}`).toString('base64');
 
   try {
     const pdf = await renderTicketPdf({
@@ -99,22 +99,28 @@ export async function POST(request: Request) {
         // not embedded in the body. contentType set explicitly so every client
         // treats it as a downloadable PDF rather than inferring from the name.
         attachments: [
-          { filename: "ticket.pdf", content: pdf, contentType: "application/pdf" },
+          {
+            filename: 'ticket.pdf',
+            content: pdf,
+            contentType: 'application/pdf',
+          },
         ],
       },
       { idempotencyKey: `ticket-confirm-${seed}` },
     );
 
     if (confirmError) {
-      console.error("Confirmation send failed:", confirmError);
+      console.error('Confirmation send failed:', confirmError);
+
+      const err = confirmError as {
+        name?: string;
+        statusCode?: number;
+        message?: string;
+      };
 
       // The idempotency key (email + show + date) already went out, but with
       // a different body — i.e. this is a duplicate claim, not a clean retry.
-      const err = confirmError as { name?: string; statusCode?: number };
-      if (
-        err.name === "invalid_idempotent_request" ||
-        err.statusCode === 409
-      ) {
+      if (err.name === 'invalid_idempotent_request' || err.statusCode === 409) {
         return NextResponse.json(
           {
             error:
@@ -124,8 +130,30 @@ export async function POST(request: Request) {
         );
       }
 
+      // Test mode: with no verified domain, Resend only delivers to your own
+      // account email. Surface Resend's actionable message rather than a vague
+      // "try again" — retrying won't help until a domain is verified.
+      if (err.statusCode === 403) {
+        return NextResponse.json(
+          {
+            error:
+              err.message ??
+              'This sender can only deliver to your own Resend account email until you verify a domain.',
+          },
+          { status: 403 },
+        );
+      }
+
+      // Resend rejected the address itself (e.g. malformed).
+      if (err.statusCode === 422) {
+        return NextResponse.json(
+          { error: 'That email address was rejected. Double-check it.' },
+          { status: 422 },
+        );
+      }
+
       return NextResponse.json(
-        { error: "Could not send your confirmation. Try again." },
+        { error: 'Could not send your confirmation. Try again.' },
         { status: 502 },
       );
     }
@@ -147,15 +175,15 @@ export async function POST(request: Request) {
       // A failed reminder shouldn't fail the whole request — the ticket is
       // already out the door. Log it and move on.
       if (remindError) {
-        console.error("Reminder schedule failed:", remindError);
+        console.error('Reminder schedule failed:', remindError);
       }
     }
 
     return NextResponse.json({ ok: true, ticketNumber });
   } catch (err) {
-    console.error("Unexpected error in /api/send:", err);
+    console.error('Unexpected error in /api/send:', err);
     return NextResponse.json(
-      { error: "Something went wrong on our end." },
+      { error: 'Something went wrong on our end.' },
       { status: 500 },
     );
   }
