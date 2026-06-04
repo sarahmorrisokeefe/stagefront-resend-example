@@ -2,7 +2,7 @@
 
 A minimal indie-show ticket confirmation demo built on Resend.
 
-**[▶ Live demo](https://stagefront-resend.vercel.app)**
+**<a href="https://stagefront-resend.vercel.app" target="_blank">▶ Live demo</a>**
 
 <img width="730" height="523" alt="Screenshot 2026-06-03 at 3 10 36 PM" src="https://github.com/user-attachments/assets/aa584fe7-1fb9-4d66-bed9-b05cfb2bd563" />
 
