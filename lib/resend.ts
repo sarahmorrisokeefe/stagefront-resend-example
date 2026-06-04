@@ -1,4 +1,4 @@
-import { Resend } from "resend";
+import { Resend } from 'resend';
 
 // Lazily constructed singleton. The Resend SDK throws if instantiated without
 // an API key, and `next build` imports this module while collecting page data
