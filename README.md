@@ -2,6 +2,8 @@
 
 A minimal indie-show ticket confirmation demo built on Resend.
 
+**[▶ Live demo](https://stagefront-resend.vercel.app)**
+
 <img width="730" height="523" alt="Screenshot 2026-06-03 at 3 10 36 PM" src="https://github.com/user-attachments/assets/aa584fe7-1fb9-4d66-bed9-b05cfb2bd563" />
 
 Stagefront is a ticket confirmation app for indie shows. It sends a PDF ticket on purchase, schedules a reminder the night before the show, and uses webhooks to confirm every email is delivered. It's built for developers working with indie venues who need email infrastructure without fuss.
@@ -101,3 +103,9 @@ public/                  # logo assets
 
 - Deploys to Vercel with zero config (auto-detected as Next.js)
 - Set the env vars above in the Vercel project settings, then redeploy
+
+## Working with AI
+
+I built this app with Claude Code, and rather than leave that unsaid, here is how. Claude Code did most of the implementation typing. I directed the work, made engineering decisions, and reviewed every change before it was committed. I also used the [superpowers](https://github.com/obra/superpowers?tab=readme-ov-file) brainstorm skill to work through decisions before any code was written.
+
+I reviewed rather than trusted. Used this way, AI handled the mechanical work quickly while the design, review, and accountability stayed with me. This is how I was coding at my previous job, and how I would expect to contribute to the code going forward, though I am happy to align on whatever AI norms the team prefers.
