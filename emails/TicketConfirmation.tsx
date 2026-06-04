@@ -11,11 +11,7 @@ import {
   Section,
   Text,
 } from "@react-email/components";
-
-// Emails can't use relative paths — the image must be a publicly hosted,
-// absolute URL. Served from public/ on the production deployment.
-const LOGOMARK_URL =
-  "https://stagefront-resend-example.vercel.app/logomark-white.png";
+import { LOGOMARK_URL } from "@/lib/site-url";
 
 export interface TicketConfirmationProps {
   fanName: string;
