@@ -96,6 +96,10 @@ lib/
   ticket-number.ts       # nanoid-based ticket number
   ticket-pdf.tsx         # PDF ticket (server-only)
   logo.ts                # base64 logo embedded in the PDF
+  dates.ts               # timezone-safe formatting + reminder scheduling
+  webhook-signature.ts   # Svix HMAC verification for the webhook route
+  site-url.ts            # base URL for absolute email image links
+  *.test.ts              # Vitest unit tests (dates, ticket-number, signature)
 public/                  # logo assets
 ```
 
@@ -103,6 +107,10 @@ public/                  # logo assets
 
 - Deploys to Vercel with zero config (auto-detected as Next.js)
 - Set the env vars above in the Vercel project settings, then redeploy
+
+## Tests
+
+Run the tests with `npm test`.
 
 ## Working with AI
 
