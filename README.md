@@ -2,7 +2,7 @@
 
 A minimal indie-show ticket confirmation demo built on Resend.
 
-<!-- remember to add ss of ticket -->
+<img width="730" height="523" alt="Screenshot 2026-06-03 at 3 10 36 PM" src="https://github.com/user-attachments/assets/aa584fe7-1fb9-4d66-bed9-b05cfb2bd563" />
 
 Stagefront is a ticket confirmation app for indie shows. It sends a PDF ticket on purchase, schedules a reminder the night before the show, and uses webhooks to confirm every email is delivered. It's built for developers working with indie venues who need email infrastructure without fuss.
 
